@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block site_name %}
+  <!-- Show only audience badge, logo handles the main title -->
+  {% if config.extra.audience_internal %}
+    <span class="audience-badge audience-badge--internal">(Internal)</span>
+  {% elif config.extra.audience_partner %}
+    <span class="audience-badge audience-badge--partner">(Partner)</span>
+  {% elif config.extra.audience_beta %}
+    <span class="audience-badge audience-badge--beta">(Beta)</span>
+  {% endif %}
+{% endblock %}

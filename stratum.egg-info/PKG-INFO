@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: stratum
+Version: 0.3.0
+Summary: Multi-audience documentation with Material design
+Author-email: Jake Sully <your.email@example.com>
+License: MIT
+Requires-Python: >=3.8
+Requires-Dist: mkdocs>=1.4.0
+Requires-Dist: mkdocs-material>=9.0.0
+Requires-Dist: pyyaml

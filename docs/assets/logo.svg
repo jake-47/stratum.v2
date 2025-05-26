@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 32" fill="none" class="stratum-logo" role="img" aria-labelledby="logoTitle">
+  <title id="logoTitle">Stratum Knowledge Base Logo</title>
+  
+  <style>
+    /* Design Token System - Enterprise Grade */
+    .stratum-logo {
+      /* Enhanced Font Fallback */
+      --brand-font-family: var(--st-brand-font, "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif");
+      --brand-font-weight: var(--st-brand-weight, 700);
+      --title-font-family: var(--st-title-font, inherit);
+      --title-font-weight: var(--st-title-weight, 400);
+      
+      /* Color Tokens */
+      --brand-color: var(--st-brand-color, #0d1b0f);
+      --title-color: var(--st-title-color, #333333);
+      
+      /* Spacing Tokens */
+      --brand-title-gap: var(--st-brand-gap, 12px);
+      
+      /* Theme-agnostic fallback */
+      color-scheme: light dark;
+    }
+    
+    /* Theme Adaptations */
+    @media (prefers-color-scheme: dark) {
+      .stratum-logo {
+        --brand-color: var(--st-brand-color-dark, #ffffff);
+        --title-color: var(--st-title-color-dark, #e0e0e0);
+      }
+    }
+    
+    [data-md-color-scheme="slate"] .stratum-logo {
+      --brand-color: var(--st-brand-color-dark, #ffffff);
+      --title-color: var(--st-title-color-dark, #e0e0e0);
+    }
+    
+    [data-md-color-scheme="default"] .stratum-logo {
+      --brand-color: var(--st-brand-color-light, #0d1b0f);
+      --title-color: var(--st-title-color-light, #333333);
+    }
+    
+    /* Component Styles */
+    .logo-element {
+      fill: var(--brand-color);
+    }
+    
+    .title-element {
+      fill: var(--title-color);
+    }
+  </style>
+  
+  <!-- Icon -->
+  <g class="logo-icon">
+    <rect x="0" y="4" width="24" height="4" rx="1.5" class="logo-element"/>
+    <rect x="3" y="10" width="18" height="4" rx="1.5" class="logo-element"/>
+    <rect x="6" y="16" width="12" height="4" rx="1.5" class="logo-element"/>
+    <rect x="9" y="22" width="6" height="4" rx="1.5" class="logo-element"/>
+  </g>
+  
+  <!-- Brand Name -->
+  <text x="36" y="24" 
+        font-family="var(--brand-font-family)" 
+        font-weight="var(--brand-font-weight)"
+        font-size="28" 
+        class="logo-element">
+    Stratum
+  </text>
+  
+  <!-- Site Title -->
+  <text x="145" y="24" 
+        font-family="var(--title-font-family)" 
+        font-weight="var(--title-font-weight)"
+        font-size="28" 
+        class="title-element">
+    Knowledge Base
+  </text>
+</svg>

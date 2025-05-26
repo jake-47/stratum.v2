@@ -1,0 +1,400 @@
+@font-face {
+  font-family: "Merriweather Sans";
+  src: url("../fonts/merriweather-sans.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Red Hat Mono";
+  src: url("../fonts/red-hat-mono.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+/* === ADDITIONAL SITE TITLE OVERRIDE === */
+
+/* Hide any remaining site title text, keep only our custom content */
+.md-header__title .md-header__title-text {
+  display: none !important;
+}
+
+/* Ensure only our audience badges show */
+.md-header__title > *:not(.audience-badge) {
+  display: none !important;
+}
+
+/* Alternative approach - hide all text nodes in title */
+.md-header__title {
+  font-size: 0; /* Hide default text */
+}
+
+.md-header__title .audience-badge {
+  font-size: 0.75rem; /* Restore badge font size */
+}
+/* === STRATUM DESIGN TOKENS === */
+
+:root {
+  /* Logo Design Tokens */
+  --st-brand-font: "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif";
+  --st-brand-weight: 700;
+  --st-title-font: inherit;
+  --st-title-weight: 400;
+  
+  /* Brand Colors */
+  --st-brand-color-light: #0d1b0f;
+  --st-title-color-light: #333333;
+  --st-brand-color-dark: #ffffff;
+  --st-title-color-dark: #e0e0e0;
+  
+  /* Layout */
+  --st-brand-gap: 12px;
+}
+
+/* === STRATUM HEADER LAYOUT (HYBRID APPROACH) === */
+
+/* Logo and Header Structure */
+.md-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
+}
+
+/* Logo positioning */
+.md-header__button.md-logo {
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Site title area for audience badges */
+.md-header__title {
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Ensure header options (search, theme) stay on the right */
+.md-header__option {
+  margin-left: auto;
+}
+
+/* Mobile: Stack logo and badge */
+@media screen and (max-width: 76.1875em) {
+  .md-header__title {
+    margin-left: 0.25rem;
+  }
+}
+
+/* ==========================================================================
+   CSS Custom Properties (Design Tokens)
+   ========================================================================== */
+
+:root {
+  /* Base audience colors */
+  --audience-internal: #9c27b0;
+  --audience-partner: #2196f3;
+  --audience-beta: #ff9800;
+  --audience-public: #4caf50;
+  
+  /* Internal color shades */
+  --audience-internal-bg: rgba(156, 39, 176, 0.05);
+  --audience-internal-bg-strong: rgba(156, 39, 176, 0.1);
+  --audience-internal-bg-dark: rgba(156, 39, 176, 0.15);
+  
+  /* Partner color shades */
+  --audience-partner-bg: rgba(33, 150, 243, 0.05);
+  --audience-partner-bg-strong: rgba(33, 150, 243, 0.1);
+  --audience-partner-bg-dark: rgba(33, 150, 243, 0.15);
+  
+  /* Beta color shades */
+  --audience-beta-bg: rgba(255, 152, 0, 0.05);
+  --audience-beta-bg-strong: rgba(255, 152, 0, 0.1);
+  --audience-beta-bg-dark: rgba(255, 152, 0, 0.15);
+  
+  /* Public color shades */
+  --audience-public-bg: rgba(76, 175, 80, 0.05);
+  --audience-public-bg-strong: rgba(76, 175, 80, 0.1);
+  --audience-public-bg-dark: rgba(76, 175, 80, 0.15);
+}
+
+/* ==========================================================================
+   Navigation Styling
+   ========================================================================== */
+
+/* Make top-level navigation sections more prominent with subtle styling */
+.md-nav--primary > .md-nav__list > .md-nav__item {
+  padding-bottom: 0.6rem;  /* Space below each section's content */
+  margin-bottom: 0.6rem;   /* Space after the divider */
+  border-bottom: 1px solid rgba(var(--md-default-fg-color--lightest-rgb), 0.12);  /* Extremely subtle divider */
+  position: relative;      /* For positioning the marker */
+}
+
+/* Add subtle vertical markers for top-level items */
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link {
+  position: relative;      /* For the marker positioning */
+  padding-left: 0.7rem;    /* Make space for the marker */
+}
+
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.2rem;             /* Vertical centering */
+  bottom: 0.2rem;
+  width: 2px;              /* Very thin line */
+  background-color: var(--md-primary-fg-color);
+  opacity: 0.3;            /* Very subtle */
+  border-radius: 1px;
+}
+
+/* Keep the original alignment for the first item */
+.md-nav--primary > .md-nav__list > .md-nav__item:first-child {
+  margin-top: 0;  /* Reset any spacing that might affect the first item */
+}
+
+/* Remove divider from last item */
+.md-nav--primary > .md-nav__list > .md-nav__item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Match indentation in the right navigation (TOC) */
+.md-sidebar--secondary .md-nav__link {
+  padding-left: 0.7rem;  /* Same indentation as left nav */
+  position: relative;    /* For potential marker */
+  margin-left: 2px;      /* Slight offset to align with left nav */
+}
+
+/* ==========================================================================
+   Site Header Audience Badges
+   ========================================================================== */
+
+/* Audience badges for site header (next to site title) */
+.audience-badge {
+  font-size: 0.75rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-left: 0.5rem;
+}
+
+.audience-badge--internal {
+  background-color: #7c3aed;
+  color: white;
+}
+
+.audience-badge--partner {
+  background-color: #0ea5e9;
+  color: white;
+}
+
+.audience-badge--beta {
+  background-color: #f59e0b;
+  color: white;
+}
+
+/* Dark theme badge adjustments */
+[data-md-color-scheme="slate"] .audience-badge--internal {
+  background-color: #8b5cf6;
+}
+
+[data-md-color-scheme="slate"] .audience-badge--partner {
+  background-color: #38bdf8;
+}
+
+[data-md-color-scheme="slate"] .audience-badge--beta {
+  background-color: #fbbf24;
+}
+
+/* Mobile badge adjustments */
+@media screen and (max-width: 76.1875em) {
+  .audience-badge {
+    font-size: 0.6875rem;
+    padding: 0.0625rem 0.375rem;
+  }
+}
+
+/* ==========================================================================
+   Content Audience Badges (for audience_label filter)
+   ========================================================================== */
+
+/* Small badges for use within content */
+.badge {
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+.badge--internal {
+  background: var(--audience-internal);
+  color: white;
+}
+
+.badge--partner {
+  background: var(--audience-partner);
+  color: white;
+}
+
+.badge--beta {
+  background: var(--audience-beta);
+  color: white;
+}
+
+.badge--public {
+  background: var(--audience-public);
+  color: white;
+  /* Available for future use */
+}
+
+/* ==========================================================================
+   Audience Content Blocks (for audience_content filter)
+   ========================================================================== */
+
+/* Content blocks that preserve markdown formatting */
+.audience-content {
+  border-left: 4px solid;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 0 4px 4px 0;
+}
+
+.audience-content--internal {
+  border-left-color: var(--audience-internal);
+  background-color: var(--audience-internal-bg);
+}
+
+.audience-content--partner {
+  border-left-color: var(--audience-partner);
+  background-color: var(--audience-partner-bg);
+}
+
+.audience-content--beta {
+  border-left-color: var(--audience-beta);
+  background-color: var(--audience-beta-bg);
+}
+
+.audience-content--public {
+  border-left-color: var(--audience-public);
+  background-color: var(--audience-public-bg);
+  /* Available for future use */
+}
+
+/* Ensure lists in audience content are properly formatted */
+.audience-content ul,
+.audience-content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.audience-content li {
+  margin: 0.25rem 0;
+}
+
+/* Dark mode compatibility for audience content */
+[data-md-color-scheme="slate"] .audience-content {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-md-color-scheme="slate"] .audience-content--internal {
+  background-color: var(--audience-internal-bg-dark);
+}
+
+[data-md-color-scheme="slate"] .audience-content--partner {
+  background-color: var(--audience-partner-bg-dark);
+}
+
+[data-md-color-scheme="slate"] .audience-content--beta {
+  background-color: var(--audience-beta-bg-dark);
+}
+
+[data-md-color-scheme="slate"] .audience-content--public {
+  background-color: var(--audience-public-bg-dark);
+}
+
+/* ==========================================================================
+   Audience-Specific Admonitions (semantic approach)
+   ========================================================================== */
+
+/* Internal admonition */
+.admonition.internal {
+  border-left-color: var(--audience-internal);
+}
+.admonition.internal .admonition-title {
+  background-color: var(--audience-internal-bg-strong);
+}
+
+/* Partner admonition */
+.admonition.partner {
+  border-left-color: var(--audience-partner);
+}
+.admonition.partner .admonition-title {
+  background-color: var(--audience-partner-bg-strong);
+}
+
+/* Beta admonition */
+.admonition.beta {
+  border-left-color: var(--audience-beta);
+}
+.admonition.beta .admonition-title {
+  background-color: var(--audience-beta-bg-strong);
+}
+
+/* Public admonition (for future use) */
+.admonition.public {
+  border-left-color: var(--audience-public);
+}
+.admonition.public .admonition-title {
+  background-color: var(--audience-public-bg-strong);
+}
+
+/* === MATERIAL INTEGRATION ENHANCEMENTS === */
+
+/* Better integration with Material's content area */
+.md-content__inner .audience-content {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Ensure your header badges work with Material's title system */
+.md-header__title .audience-badge {
+  font-size: 0.75rem !important;
+  vertical-align: middle;
+}
+
+/* Enhanced admonition integration for Material */
+.md-typeset .admonition.internal {
+  border-left-color: var(--audience-internal);
+}
+
+.md-typeset .admonition.partner {
+  border-left-color: var(--audience-partner);
+}
+
+.md-typeset .admonition.beta {
+  border-left-color: var(--audience-beta);
+}
+
+/* Ensure tabbed content works with audience styling */
+.md-typeset .tabbed-set .audience-content {
+  border-radius: 0 4px 4px 0;
+}
+
+/* Better code block integration */
+.md-typeset .highlight .audience-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+}

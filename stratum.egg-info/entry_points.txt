@@ -1,0 +1,5 @@
+[console_scripts]
+stratum = stratum.config_generator:main
+
+[mkdocs.plugins]
+stratum-audience = stratum.audience_plugin:StratumAudiencePlugin

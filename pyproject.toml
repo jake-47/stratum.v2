@@ -1,0 +1,28 @@
+[project]
+name = "stratum"
+version = "0.3.0"
+description = "Multi-audience documentation with Material design"
+authors = [
+    { name = "Jake Sully", email = "your.email@example.com" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+
+dependencies = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=9.0.0",
+    "pyyaml"
+]
+
+[project.scripts]
+stratum = "stratum.config_generator:main"
+
+[project.entry-points."mkdocs.plugins"]
+stratum-audience = "stratum.audience_plugin:StratumAudiencePlugin"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["stratum"]

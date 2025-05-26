@@ -1,0 +1,101 @@
+site_name: Knowledge Base
+site_url: https://sitename.example
+theme:
+  name: material
+  custom_dir: docs/overrides
+  font:
+    text: Merriweather Sans
+    code: Red Hat Mono
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+  features:
+  - navigation.footer
+  - navigation.expand
+  - navigation.instant
+  - navigation.tracking
+  - content.heading.links
+  - content.code.copy
+  - search.highlight
+  - search.suggest
+  palette:
+  - media: (prefers-color-scheme)
+    toggle:
+      icon: material/brightness-auto
+      name: Switch to light mode
+    primary: teal
+    accent: deep orange
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
+    toggle:
+      icon: material/brightness-7
+      name: Switch to dark mode
+    primary: teal
+    accent: deep orange
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    toggle:
+      icon: material/brightness-4
+      name: Switch to system preference
+    primary: teal
+    accent: deep orange
+markdown_extensions:
+- attr_list
+- md_in_html
+- admonition
+- pymdownx.superfences
+- pymdownx.tabbed:
+    alternate_style: true
+- pymdownx.highlight:
+    anchor_linenums: true
+- toc:
+    permalink: true
+    permalink_title: Anchor link to this section
+    toc_depth: 4
+extra_javascript:
+- assets/scripts/rename-nav-headings.js
+extra_css:
+- assets/styles/extra.css
+plugins:
+- search
+- stratum-audience:
+    audiences:
+    - internal
+    - partner
+    - beta
+    auto_labels: true
+    label_style: badge
+    debug: true
+extra:
+  audience_internal: false
+  audience_partner: true
+  audience_beta: false
+  audiences:
+  - internal
+  - partner
+  - beta
+  social:
+  - icon: fontawesome/brands/x-twitter
+    link: https://twitter.com/TheGuySwann
+  - icon: fontawesome/brands/youtube
+    link: https://www.youtube.com/watch?v=YtFOxNbmD38
+  - icon: fontawesome/brands/linkedin
+    link: https://theuselessweb.com/
+copyright: Copyright &copy; 2025 Jake Sully
+nav:
+- Introduction: index.md
+- Examples:
+  - Audience Examples: examples/audience-examples.md
+- Reference Guide:
+  - Overview: reference-guide/overview.md
+  - API: reference-guide/api.md
+  - Deployment: reference-guide/deployment.md
+- Usage Guide:
+  - Overview: usage-guide/overview.md
+  - Logo & Site Customisation: usage-guide/logo-site-customisation.md
+  - Configuration: usage-guide/configuration.md
+  - Installation: usage-guide/installation.md
+- Release Notes:
+  - Overview: release-notes/overview.md
+  - Version 1.1.1: release-notes/v1-1-1.md
+  - Version 1.1.0: release-notes/v1-1-0.md
+  - Version 1.0.0: release-notes/v1-0-0.md
