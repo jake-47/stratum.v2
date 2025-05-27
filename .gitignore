@@ -1,0 +1,41 @@
+# MkDocs output
+site/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+env/
+venv/
+ENV/
+.mypy_cache/
+.cache/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node (if using JavaScript components)
+node_modules/
+
+# MkDocs plugins and development artifacts
+*.lock
+*.bak.venv/
