@@ -1,13 +1,12 @@
-document.addEventListener("DOMContentLoaded", function() {
-  // Rename left sidebar heading (site title)
-  const leftTitle = document.querySelector(".md-sidebar--primary .md-nav__title");
-  if (leftTitle) {
-    leftTitle.textContent = "Contents";
-  }
+// Simple, direct approach - no MutationObserver
+function updateTitles() {
+  const left = document.querySelector('.md-sidebar--primary .md-nav__title');
+  const right = document.querySelector('.md-sidebar--secondary .md-nav__title');
   
-  // Rename right sidebar heading (TOC)
-  const rightTitle = document.querySelector(".md-sidebar--secondary .md-nav__title");
-  if (rightTitle) {
-    rightTitle.textContent = "On this page";
-  }
-});
+  if (left) left.textContent = 'Contents';
+  if (right) right.textContent = 'On this page';
+}
+
+// Run on load and on every page change
+document.addEventListener('DOMContentLoaded', updateTitles);
+setInterval(updateTitles, 500); // Check every 500ms

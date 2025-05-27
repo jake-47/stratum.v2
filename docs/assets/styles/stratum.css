@@ -1,0 +1,58 @@
+/* === NAVIGATION TITLE OVERRIDES === */
+/* Replace navigation titles with CSS - preserves all functionality */
+
+/* Left sidebar title override */
+.md-sidebar--primary .md-nav__title {
+  visibility: hidden;
+  position: relative;
+}
+
+.md-sidebar--primary .md-nav__title::after {
+  content: "Contents";
+  visibility: visible;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 1rem 1rem 0.5rem 1rem;
+}
+
+[data-md-color-scheme="slate"] .md-sidebar--primary .md-nav__title::after {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Right sidebar title override */
+.md-sidebar--secondary .md-nav__title {
+  visibility: hidden;
+  position: relative;
+}
+
+.md-sidebar--secondary .md-nav__title::after {
+  content: "On this page";
+  visibility: visible;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 0.5rem 0.75rem;
+}
+
+[data-md-color-scheme="slate"] .md-sidebar--secondary .md-nav__title::after {
+  color: rgba(255, 255, 255, 0.7);
+}
