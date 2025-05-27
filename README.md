@@ -1,221 +1,253 @@
 # Stratum
-> An elegant multi-audience documentation framework
+> Clean, author-friendly documentation with smart audience targeting
 
-Stratum is built on [MkDocs](https://www.mkdocs.org/) with the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme. It lets you serve multiple audiences—internal teams, partners, beta users, and the public—from one unified documentation base. Write documentation once, and serve different audiences (internal, partner, beta, public) with surgical precision using conditional comments and frontmatter tags.
+Stratum is built on [MkDocs](https://www.mkdocs.org/) with the [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) theme. It helps you manage internal and external documentation cleanly from one Markdown codebase—without the complexity of maintaining multiple documentation sources.
 
-|Audience|Can See Content Marked As|
-|---|---|
-|**Internal**| **everything**: default (public), partner, beta, internal |
-|**Partner**|partner content only|
-|**Beta**|beta content only|
-|**Public**|default content with no `audiences:` frontmatter (i.e. untagged)|
+**Most teams need just two audiences**: internal (for drafts, processes, unreleased content) and public (for everything else). Stratum defaults to this simple workflow while optionally supporting advanced audience segmentation when your team controls deployment.
 
-The reason for that logic:
-- Internal teams need full visibility to support partners, test beta features, and manage docs.
-- Partners and beta users must only see their authorized content.
-- Public users should only see untagged general documentation.
+## Quick Start: Simple Workflow
 
-To prevent privacy leaks, confusion, and content drift, Stratum uses purpose-built automated builds—each precisely filtered and clearly labeled to ensure the right content reaches the right audience, every time. Instead of duplicating files or running multiple content trees, Stratum uses audience tags and conditional comments to selectively render content at build time. That's its real advantage. Stratum's way of saying: **"We care about who's reading, but we don't want five versions of the truth in ten different places."**
+### Default Audience Logic
 
-## Core Strengths
-- One set of Markdown files, many tailored outputs
-- Granular access control per block, section, or page
-- Seamless integration with MkDocs Material
-- Clean build system that generates audience-specific config files
-- Scalable architecture that's easy to onboard and maintain
+|Audience|Sees|Use When|
+|---|---|---|
+|**Internal**|Everything (drafts, processes, unreleased content)|Team collaboration, work-in-progress|
+|**Public**|Default content with no audience tags|External-facing documentation|
 
-Stratum is ideal for teams who need clarity, maintainability, and layered access without sacrificing writing simplicity.
+This covers 90% of real-world documentation needs, especially for teams working within engineering-controlled environments where audience access is handled by application logic, not build artifacts.
+
+### When to Use Advanced Audiences
+
+Enable `partner` and `beta` audiences only when:
+- **Your docs team controls deployment** and access logic
+- You need to **publish separate documentation artifacts**
+- You have **dedicated partner portals** or customer-facing documentation
+- Your documentation workflow is **independent from engineering** environments
+
+If engineering handles audience access through authentication, environments, or application logic, stick with the simple internal/public workflow.
 
 ## Installation
 
-### 1. Clone or Download
+### 1. Quick Setup
 ```bash
-git clone https://github.com/your-org/stratum.git
-cd stratum
-```
+# Create project
+mkdir my-docs && cd my-docs
 
-### 2. Set Up Virtual Environment (Recommended)
-```bash
+# Set up environment
 python3 -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 
-### 3. Install Dependencies
-```bash
+# Install Stratum
+git clone https://github.com/your-org/stratum.git .
 pip install -e .
 ```
 
-This installs all dependencies listed in `pyproject.toml`, including `mkdocs`, `mkdocs-material`, `mkdocs-macros-plugin`, and the Stratum audience plugin.
-
-### 4. Generate Audience Configs
-
+### 2. Generate Configs
 ```bash
+# Creates audience-specific MkDocs configurations
 python generate_configs.py
 ```
 
-This creates `mkdocs.public.yml`, `mkdocs.internal.yml`, `mkdocs.partner.yml`, and `mkdocs.beta.yml` based on audience logic.
-
-### 5. Run Local Development Server
-
-Pick the audience config you want to preview:
-
+### 3. Start Writing
 ```bash
-mkdocs serve --config-file mkdocs.public.yml    # Public content
-mkdocs serve --config-file mkdocs.internal.yml  # Internal view
-mkdocs serve --config-file mkdocs.partner.yml   # Partner-only docs
-mkdocs serve --config-file mkdocs.beta.yml      # Beta feature set
+# Public documentation (default)
+mkdocs serve --config-file mkdocs.public.yml
+
+# Internal view (shows everything including internal content)
+mkdocs serve --config-file mkdocs.internal.yml
 ```
 
 ## Usage
 
-### Audience Comments
+### Simple Workflow (Recommended)
 
-Use HTML comments to target specific audiences:
+**Default**: Write normal Markdown. Content is public by default.
+
+**Internal content**: Mark sensitive content for internal teams only:
 
 ```markdown
 <!-- audience: internal -->
-This content is only visible to internal users.
-<!-- /audience -->
+## Internal Process Notes
 
-<!-- audience: partner -->
-Partner-specific information here.
-<!-- /audience -->
-
-<!-- audience: beta -->
-Beta features and experimental content.
+- API keys are stored in 1Password
+- Deploy using the staging environment first
+- Contact @devops for production access
 <!-- /audience -->
 ```
 
-### Inline Targeting
-
+**Inline internal notes**:
 ```markdown
-This sentence has <!-- audience: internal -->internal notes<!-- /audience --> embedded.
+The API endpoint is `/api/v1/users` <!-- audience: internal -->(rate limited to 1000/hour)<!-- /audience -->.
 ```
 
-### Page-Level Filtering
+That's it. No complex audience logic needed.
 
-Use frontmatter to restrict entire pages:
+### Advanced Workflow (When You Control Deployment)
 
+If your team publishes separate documentation artifacts, you can enable advanced audiences:
+
+**Page-level targeting**:
 ```markdown
 ---
-audiences: internal
+audiences: partner
 ---
 
-# Internal-Only Page
-This entire page is only visible to internal users.
+# Partner Integration Guide
+This entire page is only visible in partner builds.
 ```
 
-### Negation (Exclusion)
-
+**Multi-audience content**:
 ```markdown
-<!-- audience: !partner -->
-This content is hidden from partners but visible to everyone else.
+<!-- audience: partner, beta -->
+This section is visible to both partners and beta users.
 <!-- /audience -->
 ```
 
-### Multiple Audiences
-
+**Exclusion logic**:
 ```markdown
-<!-- audience: internal, beta -->
-Both internal users and beta testers can see this.
+<!-- audience: !beta -->
+This content is hidden from beta users but visible to everyone else.
 <!-- /audience -->
+```
+
+**Available configurations**:
+```bash
+mkdocs serve --config-file mkdocs.public.yml    # Public content only
+mkdocs serve --config-file mkdocs.internal.yml  # Everything (internal view)
+mkdocs serve --config-file mkdocs.partner.yml   # Partner-specific builds
+mkdocs serve --config-file mkdocs.beta.yml      # Beta user documentation
 ```
 
 ## Philosophy
 
-At its core, Stratum is committed to **minimal forking, maximum reuse**. Writers work in a unified Markdown corpus, embedding audience-specific content using simple, declarative logic. A developer building a CLI guide and a designer writing integration tips don't need to worry about which file to use—there's only one. The system handles visibility **surgically** at render time.
+### Simplicity First, Complexity When Needed
 
-### One Source. Multiple Perspectives.
+Stratum follows the **80/20 rule**: the simple internal/public workflow covers 90% of documentation needs. Advanced audience features are available when genuinely needed, but they don't complicate the default experience.
 
-Stratum rejects the traditional tradeoff between centralized content and contextual relevance. With Stratum, documentation can serve diverse needs without creating parallel versions. Instead of duplicating files, writers embed conditional logic where necessary and let the build process determine what each audience sees.
+**Default mindset**: Mark internal content as internal, leave everything else public. Let engineering handle access control.
 
-This isn't just a technical decision—it's an editorial one. It prevents divergence, reduces maintenance costs, and ensures that updates flow cleanly to every version of the docs.
+**Advanced mindset**: When your docs team controls deployment, use targeted builds for different stakeholder groups.
 
-### Audience Visibility Without Complexity
+### Documentation Should Follow Deployment Reality
 
-Each audience—internal, partner, beta, and public—is configured at build time through YAML flags. Writers specify audience context using the `audiences:` field in the frontmatter and embed conditional content with HTML comments like `<!-- audience: internal -->`.
+Most documentation teams work within engineering-controlled environments where:
+- Audience gating happens at the infrastructure level
+- Documentation follows code via cherry-pick, JIRA, or CI processes  
+- Partner and beta access is managed through authentication systems
+- Complex audience logic creates unnecessary overhead
 
-There is no need for non-technical contributors to learn Python or manipulate configuration files. Markdown remains the authoring language. Writers write; the system frames.
+Stratum respects this reality by defaulting to the simple workflow while supporting advanced use cases when teams actually control audience access.
+
+### One Source, Multiple Perspectives
+
+Instead of maintaining separate documentation repositories, Stratum uses conditional logic to serve different audiences from unified content. This prevents divergence, reduces maintenance costs, and ensures updates flow cleanly to every version.
+
+Writers focus on content quality, not audience complexity. The system handles visibility surgically at build time.
 
 ### Design Principles
 
-1. **Clarity Through Context**  
-   Content is not hidden; it is framed. Readers see badges, styles, and signals that clarify what is meant for them. Relevance is established through framing, not exclusion.
+1. **Default to Public**  
+   Unless marked otherwise, content should be accessible to external users. This prevents accidental information hiding and encourages clear, helpful documentation.
 
-2. **Configuration, Not Duplication**  
-   Audience segmentation lives in config files, not in forks. Whether you're serving one audience or five, the documentation structure stays the same.
+2. **Internal When Necessary**  
+   Mark content as internal only when it truly needs to stay within the organization—processes, credentials, unreleased features, or work-in-progress.
 
-3. **Progressive Disclosure**  
-   Internal users see everything. Partners and beta testers see what's meant for them. The public sees a refined core. No content is duplicated—only visibility changes.
+3. **Advanced Audiences When You Control Access**  
+   Use partner/beta builds only when your team publishes separate documentation artifacts and controls who sees what.
 
-4. **Scalable Without Fragmentation**  
-   Adding a new audience is as simple as adding a new build. There's no need to reorganize files or maintain parallel docs. The system scales cleanly as the organization grows.
+4. **Configuration Over Duplication**  
+   Audience logic lives in build configuration, not in content forks. Adding new audiences doesn't require reorganizing files or maintaining parallel documentation.
 
-5. **Friendly to Writers, Scriptable for Developers**  
-   Writers work in familiar Markdown. Developers configure builds using Python and YAML. The tooling remains powerful, but never intrusive.
+5. **Author-Friendly Complexity**  
+   Complex features should be opt-in. Writers shouldn't need to understand advanced audience logic unless their workflow requires it.
 
-6. **Style Supports Semantics**  
-   Audience-specific content is styled with subtle consistency—purple for internal, blue for partners, amber for beta. This visual hierarchy supports clarity, not distraction.
+6. **Visual Clarity**  
+   Audience-specific content gets subtle styling—badges and highlighting that clarify context without creating distraction.
 
-7. **Operational Sustainability**  
-   Stratum's architecture is designed for long-term maintainability. Updates are made once. Builds are automated. Docs stay in sync.
+## Why MkDocs + Material
 
-## Why MkDocs
+**MkDocs** provides a clean, Python-friendly workflow with fast builds and excellent developer experience. Unlike Jekyll (Ruby) or Docusaurus (JavaScript), it integrates naturally into Python ecosystems.
 
-MkDocs is a static site generator purpose-built for documentation. Written in Python, it provides a clean, efficient workflow for developers and writers alike. Unlike general-purpose tools like Jekyll or Docusaurus, MkDocs focuses on speed, simplicity, and structure—making it ideal for teams who want documentation that evolves with their code.
+**Material for MkDocs** delivers production-grade design out of the box—responsive layout, excellent mobile experience, comprehensive theming, and extensive customization options. Teams get professional results without design overhead.
 
-### Python-Friendly Workflow
-
-MkDocs integrates naturally into Python ecosystems. With straightforward pip installation and plugin development in Python, it's ideal for teams that already build, test, and deploy in Python. Unlike Jekyll (Ruby) or Docusaurus (React/JavaScript), MkDocs avoids the context switch and offers direct extensibility in the language many developers already use.
-
-### Simplicity Without Sacrifice
-
-You can get started with MkDocs using only Markdown files and a YAML configuration. It offers a smooth learning curve without sacrificing extensibility. Compared to the complexity of Sphinx or the verbosity of Antora, MkDocs gives you productivity out of the box, ideal for small teams or fast-paced projects where results matter more than customization depth.
-
-### Material Theme Advantage
-
-Starting with the Material for MkDocs theme gives teams a powerful head start. It delivers a responsive, visually polished, and production-grade experience that works seamlessly across mobile and desktop. With support for tabbed content, collapsible sections, code highlighting, and styled admonitions, the Material theme dramatically shortens the time to create high-quality technical documentation.
-
-### Fast, Incremental Builds
-
-MkDocs shines in developer experience with near-instant builds, even for large documentation sets. Its incremental build feature ensures that only changed files are rebuilt, which significantly outperforms Jekyll and Docusaurus as documentation grows.
-
-### Plugin Ecosystem Flexibility
-
-MkDocs has a strong, approachable plugin ecosystem. You can add support for diagrams, mathematical expressions, versioning, audience targeting, and more—all through well-maintained plugins. This flexibility exceeds what mdBook offers and avoids the complexity of Sphinx's plugin system.
-
-### Perfect for Reference Documentation
-
-While tools like Antora suit modular enterprise systems and mdBook favors tutorials, MkDocs excels at reference documentation. Its hierarchical navigation, built-in search, and semantic structure make it ideal for API references, product guides, and technical overviews.
-
-### Collaborative-Friendly
-
-With Markdown authoring and git-based workflows, MkDocs enables both developers and writers to contribute seamlessly. Teams avoid the overhead of GitBook's SaaS model or Confluence's licensing and platform constraints. Writers use familiar syntax, developers benefit from CI/CD-ready infrastructure, and no one is locked into a proprietary editor.
+**Together**, they create an ideal foundation for technical documentation that scales from small teams to enterprise deployments.
 
 ## Architecture
 
 Stratum consists of:
 
-- **Audience Plugin**: Processes audience comments and frontmatter
-- **Config Generator**: Creates audience-specific MkDocs configurations  
-- **Design System**: Professional CSS with audience-aware styling
+- **Audience Plugin**: Processes audience comments and frontmatter with minimal overhead
+- **Config Generator**: Creates audience-specific MkDocs configurations based on simple flags
+- **Design System**: Professional CSS with subtle audience-aware styling  
 - **Material Integration**: Clean template overrides and enhanced navigation
 
-The plugin architecture is designed for maintainability and extensibility, following MkDocs plugin conventions while providing powerful audience targeting capabilities.
+The plugin architecture follows MkDocs conventions while providing powerful targeting capabilities that don't interfere with the writing experience.
+
+## Configuration Options
+
+### Simple Configuration (Default)
+```yaml
+# mkdocs.yml - covers most teams
+plugins:
+  - stratum-audience  # Auto-detects internal/public workflow
+
+extra:
+  audience_internal: false  # Set to true for internal builds
+```
+
+### Advanced Configuration (When Needed)
+```yaml
+# mkdocs.yml - for teams that control deployment
+plugins:
+  - stratum-audience:
+      audiences: [internal, partner, beta]
+      auto_labels: true
+      label_style: badge
+
+extra:
+  audience_internal: false
+  audience_partner: false
+  audience_beta: false
+```
+
+## Decision Framework
+
+**Use Simple Workflow When**:
+- Documentation is closely tied to code development
+- Engineering controls deployment and access
+- You want minimal maintenance overhead
+- Team values writing simplicity
+
+**Use Advanced Workflow When**:
+- Your docs team controls publishing
+- You need separate stakeholder portals
+- You publish independent documentation artifacts
+- You have complex partner/customer relationships
+
+**Consider Alternatives When**:
+- You need real-time collaborative editing (use Notion, Confluence)
+- Content is primarily marketing-focused (use marketing platforms)
+- You require highly interactive documentation (use purpose-built tools)
 
 ## Contributing
 
-Contributions are welcome! Please feel free to:
+Contributions welcome! Please:
 
 - Report bugs or suggest features via GitHub Issues
 - Submit pull requests for improvements
 - Share your use cases and feedback
-- Improve documentation or examples
+- Help improve documentation and examples
+
+Focus areas:
+- Simplifying the default workflow
+- Improving advanced audience features
+- Better integration with CI/CD pipelines
+- Enhanced Material theme customization
 
 ## License
 
-MIT License - feel free to use, modify, and distribute as needed.
+MIT License - use, modify, and distribute freely.
 
 ---
 
-**Stratum**: *An elegant solution for teams who need sophisticated audience targeting without the complexity of maintaining multiple documentation sources.*
+**Stratum**: Clean documentation that scales from simple internal/external separation to sophisticated multi-audience publishing—without sacrificing writing simplicity.
