@@ -21,9 +21,9 @@ class StratumAudienceConfig(config_options.Config):
     comment_start = config_options.Type(str, default='<!-- audience:')
     comment_end = config_options.Type(str, default='-->')
     comment_close = config_options.Type(str, default='<!-- /audience -->')
-    auto_labels = config_options.Type(bool, default=True)
-    label_style = config_options.Choice(['badge', 'text', 'none'], default='badge')
-    sanitize_html = config_options.Type(bool, default=True)
+    auto_labels = config_options.Type(bool, default=False)  # Disabled by default
+    label_style = config_options.Choice(['badge', 'text', 'none'], default='none')
+    sanitize_html = config_options.Type(bool, default=False)
     debug = config_options.Type(bool, default=False)
 
 class StratumAudiencePlugin(BasePlugin[StratumAudienceConfig]):
@@ -41,22 +41,13 @@ class StratumAudiencePlugin(BasePlugin[StratumAudienceConfig]):
             logger.setLevel(logging.DEBUG)
             logger.debug(f"Stratum initialized with audiences: {self.config.audiences}")
             
-        # Get current build audience
+        # Get current build audience from single key
         extra = config.get('extra', {})
-        self.current_audiences = set()
-        
-        if extra.get('audience_internal', False):
-            self.current_audiences.add('internal')
-        if extra.get('audience_partner', False):
-            self.current_audiences.add('partner')  
-        if extra.get('audience_beta', False):
-            self.current_audiences.add('beta')
-            
-        if not self.current_audiences:
-            self.current_audiences.add('public')
+        current_audience = extra.get('audience', 'public')
+        self.current_audiences = {current_audience}
             
         if self.config.debug:
-            logger.debug(f"Current build audiences: {self.current_audiences}")
+            logger.debug(f"Current build audience: {current_audience}")
             
         return config
     
@@ -199,7 +190,7 @@ class StratumAudiencePlugin(BasePlugin[StratumAudienceConfig]):
         return 'public' in self.current_audiences
     
     def _generate_audience_html(self, audiences: List[str], content: str, level: str) -> str:
-        """Generate Material-compatible HTML with audience classes."""
+        """Generate clean HTML without badges."""
         if self.config.sanitize_html and level == 'inline':
             safe_content = html.escape(content)
         else:
@@ -207,23 +198,16 @@ class StratumAudiencePlugin(BasePlugin[StratumAudienceConfig]):
         
         primary_audience = audiences[0] if audiences else 'public'
         
+        # Simple class structure - just primary audience and level
         classes = [f"audience-{primary_audience}", f"stratum-{level}"]
-        for aud in audiences:
-            audience_class = f"audience-{aud}"
-            if audience_class not in classes:
-                classes.append(audience_class)
-        
         class_attr = ' '.join(classes)
-        data_audience = ', '.join(audiences)
+        data_audience = ', '.join(audiences)  # Keep full audience list in data attribute
         
-        label_html = ""
-        if self.config.auto_labels and self.config.label_style == 'badge':
-            label_html = f'<span class="audience-badge audience-badge--{primary_audience}">{primary_audience.title()}</span> '
-        
+        # No badges - just clean content with audience classes
         if level == 'inline':
-            return f'<span class="{class_attr}" data-audience="{data_audience}">{label_html}{safe_content}</span>'
+            return f'<span class="{class_attr}" data-audience="{data_audience}">{safe_content}</span>'
         else:
-            return f'<div class="{class_attr}" data-audience="{data_audience}" markdown="1">\n{label_html}\n{safe_content}\n</div>'
+            return f'<div class="{class_attr}" data-audience="{data_audience}" markdown="1">\n{safe_content}\n</div>'
     
     def should_render_page(self, page_audiences: Set[str]) -> bool:
         """Check if page should be rendered."""

@@ -16,6 +16,8 @@ venv/
 ENV/
 .mypy_cache/
 .cache/
+.venv/
+**/.venv/
 
 # OS generated files
 .DS_Store

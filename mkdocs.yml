@@ -68,7 +68,7 @@ plugins:
   - stratum-audience:
       audiences: [internal, partner, beta]
       auto_labels: true
-      label_style: badge
+      label_style: none
       debug: true  # Turn on for testing
 
 extra:
@@ -99,8 +99,10 @@ nav:
     - Logo & Site Customisation: usage-guide/logo-site-customisation.md
     - Configuration: usage-guide/configuration.md
     - Installation: usage-guide/installation.md
+    - Test: usage-guide/test.md
   - Release Notes:
     - Overview: release-notes/overview.md
     - Version 1.1.1: release-notes/v1-1-1.md
     - Version 1.1.0: release-notes/v1-1-0.md
     - Version 1.0.0: release-notes/v1-0-0.md
+    
