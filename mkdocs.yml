@@ -62,11 +62,13 @@ extra_javascript:
 
 extra_css:
   - assets/styles/extra.css
+  - https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap
+
 
 plugins:
   - search
   - stratum-audience:
-      audiences: [internal, partner, beta]
+      audiences: [internal] # Add "partner, beta" for more audiences
       auto_labels: true
       label_style: none
       debug: true  # Turn on for testing

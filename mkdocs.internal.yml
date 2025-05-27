@@ -55,18 +55,17 @@ extra_javascript:
 - assets/scripts/rename-nav-headings.js
 extra_css:
 - assets/styles/extra.css
+- https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap
 plugins:
 - search
 - stratum-audience:
     audiences:
     - internal
-    - partner
-    - beta
     auto_labels: true
-    label_style: badge
+    label_style: none
     debug: true
 extra:
-  audience_internal: true
+  audience_internal: false
   audience_partner: false
   audience_beta: false
   audiences:
@@ -80,6 +79,7 @@ extra:
     link: https://www.youtube.com/watch?v=YtFOxNbmD38
   - icon: fontawesome/brands/linkedin
     link: https://theuselessweb.com/
+  audience: internal
 copyright: Copyright &copy; 2025 Jake Sully
 nav:
 - Introduction: index.md
