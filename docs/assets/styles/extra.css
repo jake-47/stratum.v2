@@ -1,15 +1,279 @@
+/* === REPLIT-INSPIRED TYPOGRAPHY === */
+/* Local font imports - update paths after downloading */
 @font-face {
-  font-family: "Merriweather Sans";
-  src: url("../fonts/merriweather-sans.woff2") format("woff2");
-  font-weight: 400;
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Red Hat Mono";
-  src: url("../fonts/red-hat-mono.woff2") format("woff2");
-  font-weight: 400;
+  font-family: 'JetBrains Mono';
+  src: url('../fonts/JetBrainsMono-Variable.woff2') format('woff2');
+  font-weight: 100 800;
+  font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('../fonts/Manrope-Variable.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Override Material's font variables */
+:root {
+  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --md-code-font: "JetBrains Mono", "SF Mono", Monaco, "Cascadia Code", monospace;
+  
+  /* Stratum dark green color scheme */
+  --md-primary-fg-color: #0d4f3c;
+  --md-primary-fg-color--light: #0d4f3c;
+  --md-primary-fg-color--dark: #0d4f3c;
+  --md-accent-fg-color: #0d4f3c;
+  
+/* Stratum brand colors - lighter to match brand */
+--stratum-green: #2d7a5f;
+--stratum-green-light: rgba(45, 122, 95, 0.1);
+--stratum-green-active: rgba(45, 122, 95, 0.15);
+--stratum-green-hover: rgba(45, 122, 95, 0.08);
+}
+ 
+/* Replit-style headings - no !important needed */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+}
+
+h1 { font-weight: 700; }
+
+/* === REPLIT-STYLE TIGHT SPACING === */
+/* Reduce spacing between sections */
+.md-content h1 {
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.75rem;
+}
+
+.md-content h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+}
+
+.md-content h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.15rem;
+}
+
+/* Tighter paragraph spacing */
+.md-content p {
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+/* Reduce list spacing */
+.md-content ul, .md-content ol {
+  margin: 0.5rem 0;
+}
+
+.md-content li {
+  margin: 0.15rem 0;
+  line-height: 1.5;
+}
+
+/* Tighter spacing for nested lists */
+.md-content li > ul, .md-content li > ol {
+  margin: 0.25rem 0;
+}
+
+/* Reduce blockquote margins */
+.md-content blockquote {
+  margin: 0.75rem 0;
+  padding: 0.5rem 1rem;
+}
+
+/* Tighter admonition spacing */
+.md-typeset .admonition {
+  margin: 1rem 0;
+}
+
+.md-typeset .admonition-title {
+  margin-bottom: 0.5rem;
+}
+
+/* Reduce code block margins */
+.md-typeset .highlight {
+  margin: 0.75rem 0;
+}
+
+/* Tighter table spacing */
+.md-typeset table:not([class]) {
+  margin: 0.75rem 0;
+}
+
+/* Reduce spacing in cards */
+.card {
+  padding: 1rem;
+}
+
+.card-title {
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+}
+
+.card-content {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Tighter navigation */
+.md-nav__link {
+  padding: 0.3rem 0.75rem;
+  margin: 0.05rem 0.5rem;
+}
+
+/* Reduce overall content line height to match Replit */
+.md-content {
+  line-height: 1.6;
+  font-size: 0.85rem;
+}
+
+/* Tighter header area */
+.md-content__inner {
+  padding-top: 1rem;
+}
+
+/* === STRATUM NAVIGATION - REPLIT STYLE === */
+/* Stratum brand colors - lighter green */
+:root {
+  --stratum-green: #2d7a5f;
+  --stratum-green-light: rgba(45, 122, 95, 0.1);
+  --stratum-green-active: rgba(45, 122, 95, 0.15);
+  --stratum-green-hover: rgba(45, 122, 95, 0.08);
+}
+
+/* Remove all existing lines and borders */
+.md-nav--primary > .md-nav__list > .md-nav__item {
+  border-bottom: none !important;
+  margin-bottom: 1rem !important; /* Restore spacing between sections */
+  padding-bottom: 0 !important;
+  position: relative;
+}
+
+/* Remove any vertical lines */
+.md-nav--primary > .md-nav__list > .md-nav__item::before,
+.md-nav--primary > .md-nav__list > .md-nav__item::after {
+  display: none !important;
+}
+
+/* Section Headers - permanently bold, no background like Replit */
+.md-nav__title {
+  background: none;
+  border: none;
+  margin: 0.5rem 1rem 0.25rem 1rem;
+  padding: 0.5rem 0;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 0.75rem;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+[data-md-color-scheme="slate"] .md-nav__title {
+  background-color: rgba(45, 122, 95, 0.2);
+  color: #86efac;
+}
+
+/* Regular navigation links */
+.md-nav__link {
+  padding: 0.4rem 0.75rem;
+  margin: 0.1rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+  font-size: 0.8rem;
+}
+
+/* Left nav hover - same as right nav */
+.md-nav__link:hover {
+  background-color: var(--stratum-green-hover);
+  color: var(--stratum-green);
+  transform: translateX(2px);
+}
+
+/* ACTIVE PAGE - lighter green like Stratum brand */
+.md-nav__link--active {
+  background-color: var(--stratum-green-active) !important;
+  color: var(--stratum-green) !important;
+  font-weight: 600;
+  border-left: 3px solid var(--stratum-green);
+  padding-left: calc(0.75rem - 3px);
+}
+
+[data-md-color-scheme="slate"] .md-nav__link--active {
+  background-color: rgba(45, 122, 95, 0.25) !important;
+  color: #86efac !important;
+  border-left-color: #86efac;
+}
+
+/* Child pages container - proper indentation */
+.md-nav__item .md-nav__list {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.md-nav__item .md-nav__item .md-nav__link {
+  margin-left: 1.5rem;
+  font-size: 0.8rem;
+}
+
+/* === RIGHT NAVIGATION (TOC) - Fixed indentation === */
+.md-sidebar--secondary .md-nav__link {
+  transition: all 0.2s ease;
+  border-left: 2px solid transparent;
+  padding: 0.25rem 0.75rem;
+  padding-left: 1rem; /* Fixed indentation */
+  border-radius: 4px;
+  margin: 0.05rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.md-sidebar--secondary .md-nav__link:hover {
+  border-left-color: var(--stratum-green);
+  color: var(--stratum-green);
+  background-color: var(--stratum-green-hover);
+  transform: translateX(2px);
+}
+
+/* TOC active section - matching left nav colors */
+.md-sidebar--secondary .md-nav__link--active,
+.md-sidebar--secondary .md-nav__link--in-view {
+  background-color: var(--stratum-green-active) !important;
+  border-left: 3px solid var(--stratum-green) !important;
+  padding-left: calc(1rem - 1px) !important;
+  color: var(--stratum-green) !important;
+  font-weight: 600;
+}
+
+[data-md-color-scheme="slate"] .md-sidebar--secondary .md-nav__link--active,
+[data-md-color-scheme="slate"] .md-sidebar--secondary .md-nav__link--in-view {
+  background-color: rgba(45, 122, 95, 0.25) !important;
+  border-left-color: #86efac !important;
+  color: #86efac !important;
+}
+
+/* TOC nested items - proper indentation levels */
+.md-sidebar--secondary .md-nav__item .md-nav__item .md-nav__link {
+  padding-left: 1.5rem;
+}
+
+.md-sidebar--secondary .md-nav__item .md-nav__item .md-nav__item .md-nav__link {
+  padding-left: 2rem;
 }
 
 /* === ADDITIONAL SITE TITLE OVERRIDE === */
@@ -397,4 +661,63 @@
   top: 0.5rem;
   right: 0.5rem;
   z-index: 1;
+}
+
+/* === REPLIT-STYLE PAGE HEADINGS - Compact sizes === */
+.md-content h1 {
+  font-family: 'Manrope', 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: normal;
+  color: rgba(0, 0, 0, 0.9);
+  line-height: 1.3;
+}
+
+.md-content h2 {
+  font-family: 'Manrope', 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: normal;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1.4;
+}
+
+.md-content h3 {
+  font-family: 'Manrope', 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 1.25rem;
+  margin-bottom: 0.4rem;
+  color: rgba(0, 0, 0, 0.8);
+  line-height: 1.4;
+}
+
+
+[data-md-color-scheme="slate"] .md-content h1 {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+[data-md-color-scheme="slate"] .md-content h2 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+[data-md-color-scheme="slate"] .md-content h3 {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Heading anchor links */
+.md-content .headerlink {
+  color: var(--stratum-green);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.md-content h1:hover .headerlink,
+.md-content h2:hover .headerlink,
+.md-content h3:hover .headerlink {
+  opacity: 1;
 }
